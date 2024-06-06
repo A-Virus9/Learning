@@ -135,8 +135,8 @@ const timeout = function(sec){
 
 Promise.race([
   fetch("https://restcountries.com/v2/name/portugal"),
-  timeout(.03)//.02
-]).then(res => console.log(res[0])).catch(err => console.log(err))
+  timeout(.09)
+]).then(res => console.log(res)).catch(err => console.log(err))
 
 //allSettled / any
 const allSettledTest = async function(){
@@ -160,3 +160,41 @@ const anyTest = async function(){
   console.log(data)
 }
 anyTest()
+
+// promise test
+const promise = function(){
+  return new Promise(function(resolve, reject){
+    setTimeout(()=>{
+      // resolve("yo")
+      reject("yo")
+    },1000)
+  })
+}
+
+// const yo = async function(){
+//   try{
+//     console.log("Starting")
+//     const data1 = await promise()
+//     console.log("first complete")
+//     const data2 = await promise()
+//     console.log("second complete")
+//     const data3 = await promise()
+//     console.log("all complete")
+//     console.log(data1, data2, data3)
+//   }
+//   catch(err){
+//     console.error(err)
+//   }
+// }
+// yo()
+
+const yo = async function(){
+  const bye = await Promise.allSettled([
+  promise(),
+  promise(),
+  promise()
+])
+.then(res => console.log(res))
+.catch(err => console.log(err))
+}
+yo()
